@@ -5,7 +5,7 @@ const requireAuth = isAuth => (from, to, next) => {
     const isAccess = store.getters["isAuth"];
 
     if ((isAccess && isAuth) || (!isAccess && !isAuth)) {
-        return next();
+        next(from.fullPath);
     } else {
         next("/");
     }

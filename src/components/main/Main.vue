@@ -17,12 +17,12 @@ export default {
         return {
             memberId: '',
             password: '',
-            responseData : '여기 뜰겨'
+            responseData : '결과'
         };
     },
     methods: {
         authTest : function () {
-            fetch('http://localhost:8081/members/test', {
+            fetch('/members/test', {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json;charset=utf-8',

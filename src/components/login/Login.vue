@@ -2,25 +2,20 @@
     <div class="container">
         <div class="card card-container">
             <label></label>
-            <form v-on:submit="submitForm">
-                <input type="text" id="txt_memberId" class="form-control" placeholder="ID" v-model="memberId" required autofocus/>
-                <input type="password" id="txt_password" class="form-control" placeholder="PASSWORD" v-model="password" required/>
-                <button class="btn btn-primary" type="submit">Login</button>
-            </form>
+            <input type="text" id="txt_memberId" class="form-control" placeholder="ID" v-model="memberId" required autofocus/>
+            <input type="password" id="txt_password" class="form-control" placeholder="PASSWORD" v-model="password" required/>
+            <button class="btn btn-primary" @click="submitForm">Login</button>
         </div>
     </div>
 </template>
 
 <script>
 // 로그인 화면 진입시 로컬스토리지 삭제
-// window.localStorage.clear();
+window.localStorage.clear();
 export default {
     name:'Login',
     components: {},
     inject:['$store', '$axios'],
-    created() {
-        this.$router.push('/main'); 
-    },
     data() {
         return {
             memberId: '',
@@ -29,12 +24,11 @@ export default {
     },
     methods: { 
         submitForm : function() {
-            const formData = { 
-                memberId : this.memberId, 
-                password : this.password 
+            const formData = {
+                memberId : this.memberId,
+                password : this.password
             };
-
-            this.$axios.post('http://localhost:8081/members/login', formData).then((res) => {
+            this.$axios.post('/members/login', formData).then((res) => {
                 if (200 == res.status) {
                     // ACCESS 토큰 저장
                     this.$store.commit("setACT", {
@@ -56,7 +50,7 @@ export default {
         setAuthSet : function() {
             // AXIOS ACCESS 토큰 설정
             this.$axios.defaults.headers.common['Authorization'] = this.$store.state.token.grant_type + ' ' + this.$store.state.token.access_token;
-            this.$router.push('/main'); 
+            this.$router.push({ name : 'main' }); 
         }
     }
 }
